@@ -1,0 +1,69 @@
+\documentclass[
+	a4paper,
+	cleardoublepage=empty,
+	headings=twolinechapter,
+	numbers=autoenddot,
+]{scrbook}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{import}
+\usepackage{float}
+\usepackage{cite}
+\usepackage[signatures,swapnames,sans]{frontespizio}
+
+\usepackage{todonotes}
+\usepackage{verbatim}
+
+\usepackage{color}
+\usepackage{url} 
+
+\newcommand{\Fig}[0]{Fig.}
+\newcommand{\Eq}[0]{Eq.}
+
+\pagestyle{plain}
+\input{preamble}
+\newcolumntype{C}{>{\centering\arraybackslash}p{3cm}}
+
+\begin{document}
+	\frontmatter
+	
+	\pdfbookmark{Title page}{titlepage}
+	\begin{frontespizio}
+		\Margini{3cm}{3cm}{3cm}{3cm}
+		\Universita{Bergamo}
+		\Logo[43.332mm]{ImageFiles/unibg-mark}
+		\Divisione{Scuola di Ingegneria}
+		\Corso[Laurea Magistrale]{Ingegneria Informatica}
+		\Titolo{Sistema di gestione prenotazioni}
+		\Sottotitolo{Progetto del corso di Programmazione Avanzata}
+		\Punteggiatura{}
+		\Candidato[1060652]{Wasim Essbai}
+		\Annoaccademico{2021--2022}
+		\begin{Preambolo*}
+			\usepackage[italian]{babel}
+			\usepackage[T1]{fontenc}
+			\usepackage[utf8]{inputenc}
+			\usepackage{microtype}
+			\usepackage{lmodern}
+			\graphicspath{{img/}}
+			
+			\renewcommand{\frontinstitutionfont}{\fontsize{14}{17}\bfseries\scshape}
+			\renewcommand{\fronttitlefont}{\fontsize{17}{21}\bfseries\scshape}
+			\renewcommand{\frontfootfont}{\fontsize{12}{14}\bfseries\scshape}
+		\end{Preambolo*}
+	\end{frontespizio}
+	
+	\tableofcontents
+	\listoffigures
+	\mainmatter
+	
+	\chapter*{Introduzione}
+	\addcontentsline{toc}{chapter}{Introduzione}
+	
+	\chapter*{C++}
+	\addcontentsline{toc}{chapter}{C++}
+	\import{./TextFiles/C++/}{Features.tex}
+	
+\end{document}

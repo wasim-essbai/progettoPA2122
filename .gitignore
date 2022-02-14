@@ -6,3 +6,8 @@ Documentazione/Documentazione.lof
 Documentazione/Documentazione.log
 Documentazione/Documentazione.synctex.gz
 Documentazione/Documentazione.toc
+progetto_pa_c++/.cproject
+progetto_pa_c++/.project
+progetto_pa_c++/.settings/language.settings.xml
+progetto_pa_c++/.settings/org.eclipse.cdt.managedbuilder.core.prefs
+*.o
