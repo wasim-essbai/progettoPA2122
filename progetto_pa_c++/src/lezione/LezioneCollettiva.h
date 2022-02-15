@@ -10,12 +10,13 @@
 #include <ctime>
 #include <memory>
 
-#include "Lezione.h"
+#include "../comparable/comparable.h"
 #include "../utente/Studente.h"
+#include "Lezione.h"
 
 using namespace std;
 
-class LezioneCollettiva : public Lezione
+class LezioneCollettiva : public Lezione, public Comparable
 {
 private:
 	vector<studente_ref> lista_studenti;
@@ -34,6 +35,8 @@ public:
 	void set_lista_studenti(vector<studente_ref> const lista_studenti);
 
 	string get_string();
+
+	int compare_to(comparable_ref c);
 
 	virtual ~LezioneCollettiva();
 };

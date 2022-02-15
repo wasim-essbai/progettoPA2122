@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <memory>
 #include <list>
@@ -46,12 +47,18 @@ void LezioneCollettiva::set_lista_studenti(vector<studente_ref> const lista_stud
 }
 
 string LezioneCollettiva::get_string(){
-	string descrizione = Lezione::get_string();
-	descrizione += "Gli studenti registrati sono: \n";
+	stringstream streamer;
+	streamer << Lezione::get_string() <<endl;
+	streamer << "Gli studenti registrati sono: " << endl;
 	for(auto& el: lista_studenti){
-		descrizione += el->get_string();
+		streamer << el->get_string() << endl;
 	}
-	return descrizione;
+	return streamer.str();
+}
+
+int LezioneCollettiva::compare_to(comparable_ref c){
+	unique_ptr<LezioneCollettiva> other(dynamic_cast<LezioneCollettiva*>(c.get()));
+	return this->get_data() - other->get_data();
 }
 
 LezioneCollettiva::~LezioneCollettiva(){}

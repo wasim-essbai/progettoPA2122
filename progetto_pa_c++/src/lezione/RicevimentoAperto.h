@@ -9,12 +9,13 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "Lezione.h"
+#include "../comparable/comparable.h"
 #include "../utente/Tutor.h"
+#include "Lezione.h"
 
 using namespace std;
 
-class RicevimentoAperto : private Lezione
+class RicevimentoAperto : private Lezione, public Comparable
 {
 private:
 	vector<tutor_ref> lista_tutor;
@@ -39,6 +40,13 @@ public:
 	string get_luogo();
 
 	void set_luogo(int const luogo);
+
+	int compare_to(comparable_ref c);
+
+	bool operator > (RicevimentoAperto other)
+	{
+		return Lezione::get_data() > other.get_data();
+	}
 
 	string get_string();
 

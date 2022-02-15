@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <list>
 #include <iostream>
@@ -23,7 +24,9 @@ string Studente::get_codice_studente()
 }
 
 string Studente::get_string(){
-	return "Codice studente: " + codice_studente + " " + Utente::get_string();
+	stringstream streamer;
+	streamer << "Codice studente: " << codice_studente << " " << Utente::get_string();
+	return streamer.str();
 }
 
 Studente::~Studente(){}

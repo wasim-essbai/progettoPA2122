@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <list>
 #include <iostream>
@@ -44,7 +45,9 @@ void Utente::set_cognome(string const cognome)
 }
 
 string Utente::get_string(){
-	return "Nome: " + nome + " Cognome: " + cognome;
+	stringstream streamer;
+	streamer << "Nome: " << nome << " Cognome: " << cognome;
+	return streamer.str();
 }
 
 Utente::~Utente(){}

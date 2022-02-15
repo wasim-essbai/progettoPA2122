@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <list>
 #include <iostream>
@@ -105,30 +106,47 @@ void Lezione::set_ora_fine(time_t const ora_fine)
 }
 
 string Lezione::get_string(){
-	unique_ptr<tm> local_data_time(localtime(&data));
-	string data_string = "null ";
-	if(local_data_time.get() != NULL){
+	stringstream streamer;
+	streamer << "Codice lezione: " << codice;
+
+	tm* local_data_time = localtime(&data);
+	streamer << " Data: ";
+	if(local_data_time != NULL){
 		int year = 1900 + local_data_time->tm_year;
 		int month = 1 + local_data_time->tm_mon;
 		int day = local_data_time->tm_mday;
-		data_string = to_string(year) + "-" + to_string(month) + "-" + to_string(day) + "\n";
+		streamer << year << "-" << month << "-" << day << endl;
+	} else {
+		streamer << "null ";
 	}
 
-	unique_ptr<tm> local_orario_inizio_time(localtime(&ora_inizio));
-	string orario = "null ";
-	if(local_orario_inizio_time.get() != NULL){
-		int inizio_hour = local_orario_inizio_time->tm_hour;
-		int inizio_minute = local_orario_inizio_time->tm_min;
-		orario = " Ora inizio: " + to_string(inizio_hour) + ":" + to_string(inizio_minute);
-	}
-	unique_ptr<tm> local_orario_fine_time(localtime(&ora_fine));
+	streamer << "Luogo: " << luogo;
 
-	if(local_orario_fine_time.get() != NULL){
-		int fine_hour = local_orario_fine_time->tm_hour;
-		int fine_minute = local_orario_fine_time->tm_min;
-		orario += " Ora fine: " + to_string(fine_hour) + ":" + to_string(fine_minute);
+	tm* local_orario_inizio_time = localtime(&ora_inizio);
+	int inizio_hour, inizio_minute;
+	streamer << " Ora inizio: ";
+	if(local_orario_inizio_time != NULL){
+		inizio_hour = local_orario_inizio_time->tm_hour;
+		inizio_minute = local_orario_inizio_time->tm_min;
+		streamer << inizio_hour;
+		streamer << ":" << inizio_minute;
+	} else {
+		streamer << "null ";
 	}
-	return "Codice lezione: " + to_string(codice) + " Data: " + data_string + "Luogo: " + luogo + orario;
+
+	tm* local_orario_fine_time = localtime(&ora_fine);
+	streamer << " Ora fine: ";
+	int fine_hour, fine_minute;
+	if(local_orario_fine_time != NULL){
+		fine_hour = local_orario_fine_time->tm_hour;
+		fine_minute = local_orario_fine_time->tm_min;
+		streamer << fine_hour;
+		streamer << ":" << fine_minute;
+	} else {
+		streamer << "null ";
+	}
+
+	return streamer.str();
 }
 
 Lezione::~Lezione(){}

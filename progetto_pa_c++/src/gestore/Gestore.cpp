@@ -32,9 +32,15 @@ void Gestore::init(){
 	lista_studenti.push_back(make_shared<Studente>("Pinco", "Pallino"));
 
 	//init tutor
-	lista_tutor.push_back(make_shared<Tutor>("Pino", "Pasticcino"));
+	tutor_ref t1(new Tutor("Pino", "Pasticcino"));
+	lista_tutor.push_back(t1);
 	lista_tutor.push_back(make_shared<Tutor>("Pluto", "Plutone"));
 	lista_tutor.push_back(make_shared<Tutor>("Pippo", "Plutone"));
+
+	//init lezioni
+	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(2), time(0)+200000, "test2", time(0), time(0), lista_tutor.at(1)));
+	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(0), time(0)+100000, "test", time(0), time(0), lista_tutor.at(0)));
+	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(1), time(0), "test1", time(0), time(0), lista_tutor.at(0)));
 
 }
 
@@ -52,7 +58,7 @@ void Gestore::nuova_lezione(){
 		cout << "2 - Ricevimento aperto" << endl;
 		getline(cin, line);
 		scelta = stoi(line);
-
+		//scelta = 2; //Test
 		switch(scelta){
 		case 0:
 			nuova_lezione_singola();
@@ -87,9 +93,12 @@ void Gestore::nuova_lezione_singola(){
 		index++;
 	}
 	getline(cin, line);
+	if (line == "!") {
+		return;
+	}
 	scelta = stoi(line);
 	//scelta = 0; //Test
-	if(scelta == -2 || scelta == 33){
+	if(scelta == -2){
 		return;
 	}
 	studente_ref studente_scelto;
@@ -132,19 +141,21 @@ void Gestore::nuova_lezione_collettiva(){
 	vector<int> aggiunti;
 	while(true){
 		getline(cin, line);
+		if (line == "!") {
+			return;
+		}
 		if(line == "ok"){
 			break;
 		}
 		scelta = stoi(line);
 		//scelta = 0; //Test
-		if(scelta == -2 || scelta == 33){
+		if(scelta == -2){
 			return;
 		}
 		studente_ref studente_scelto;
 		if(scelta == -1){
 			studente_scelto = move(registra_studente());
-		}
-		if (scelta < index && scelta >= 0){
+		} else if (scelta < index && scelta >= 0){
 			vector<int>::iterator it = find(aggiunti.begin(), aggiunti.end(), scelta);
 			if (it != aggiunti.end()){
 				cout << "Studente già aggiunto! " << endl;
@@ -169,43 +180,54 @@ void Gestore::nuovo_ricevimento_aperto(){
 	string line;
 	//Inserimento data
 	time_t now = time(0);
-	unique_ptr<tm> current_local_time(localtime(&now));
+	tm* current_local_time = localtime(&now);
 	int year;
 	int month;
 	int day;
 
 	cout << "Inserisci anno: " << endl;
 	getline(cin, line);
-	year = stoi(line);
-	//year = 2022; //Test
-	if (year == 33) {
+	if (line == "!") {
 		return;
 	}
+	year = stoi(line);
+	//year = 2022; //Test
 
 	if (year < current_local_time->tm_year + 1900) {
 		stampa_errore_data_passata();
 	}
+	bool stesso_anno = year == current_local_time->tm_year + 1900;
 
 	cout << "Inserisci mese: " << endl;
 	getline(cin, line);
+	if (line == "!") {
+		return;
+	}
+
 	month = stoi(line);
 	//month = 2; //Test
-	if (month < current_local_time->tm_mon + 1) {
+	if (month < current_local_time->tm_mon + 1 && stesso_anno) {
 		stampa_errore_data_passata();
+		return;
 	}
+	bool stesso_mese = month == current_local_time->tm_mon + 1;
 
 	cout << "Inserisci giorno: " << endl;
 	getline(cin, line);
+	if (line == "!") {
+		return;
+	}
+
 	day = stoi(line);
 	//day = 13;
-	if (day < current_local_time->tm_mday) {
+	if (day <= current_local_time->tm_mday && stesso_anno && stesso_mese) {
 		stampa_errore_data_passata();
 		return;
 	}
 
 	time_t data;
 	time(&data);
-	unique_ptr<tm> local_data_time(localtime(&data));
+	tm* local_data_time = localtime(&data);
 
 	local_data_time->tm_year = year - 1900;
 	local_data_time->tm_mon = month - 1;
@@ -213,7 +235,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 	local_data_time->tm_hour = 0;
 	local_data_time->tm_min = 0;
 	local_data_time->tm_sec = 0;
-	data = mktime(local_data_time.get());
+	data = mktime(local_data_time);
 
 	//Inserimento luogo
 	string luogo;
@@ -240,11 +262,14 @@ void Gestore::nuovo_ricevimento_aperto(){
 	vector<int> aggiunti;
 	while(true){
 		getline(cin, line);
+		if (line == "!") {
+			return;
+		}
 		if(line == "ok"){
 			break;
 		}
 		scelta = stoi(line);
-		if(scelta == -2 || scelta == 33){
+		if(scelta == -2){
 			return;
 		}
 		tutor_ref tutor_scelto;
@@ -275,43 +300,53 @@ lezione_ref Gestore::crea_lezione() {
 	string line;
 	//Inserimento data
 	time_t now = time(0);
-	unique_ptr<tm> current_local_time(localtime(&now));
+	tm* current_local_time = localtime(&now);
 	int year;
 	int month;
 	int day;
 
 	cout << "Inserisci anno: " << endl;
 	getline(cin, line);
-	year = stoi(line);
-	//year = 2022; //Test
-	if (year == 33) {
+	if (line == "!") {
 		return nullptr;
 	}
+	year = stoi(line);
+	//year = 2022; //Test
 
 	if (year < current_local_time->tm_year + 1900) {
 		stampa_errore_data_passata();
+		return nullptr;
 	}
+	bool stesso_anno = year == current_local_time->tm_year + 1900;
 
 	cout << "Inserisci mese: " << endl;
 	getline(cin, line);
+	if (line == "!") {
+		return nullptr;
+	}
 	month = stoi(line);
 	//month = 2; //Test
-	if (month < current_local_time->tm_mon + 1) {
+	if (month < current_local_time->tm_mon + 1 && stesso_anno) {
 		stampa_errore_data_passata();
+		return nullptr;
 	}
+	bool stesso_mese = month == current_local_time->tm_mon + 1;
 
 	cout << "Inserisci giorno: " << endl;
 	getline(cin, line);
+	if (line == "!") {
+		return nullptr;
+	}
 	day = stoi(line);
 	//day = 13;
-	if (day < current_local_time->tm_mday) {
+	if (day <= current_local_time->tm_mday && stesso_mese && stesso_anno) {
 		stampa_errore_data_passata();
 		return nullptr;
 	}
 
 	time_t data;
 	time(&data);
-	unique_ptr<tm> local_data_time(localtime(&data));
+	tm* local_data_time = localtime(&data);
 
 	local_data_time->tm_year = year - 1900;
 	local_data_time->tm_mon = month - 1;
@@ -319,7 +354,7 @@ lezione_ref Gestore::crea_lezione() {
 	local_data_time->tm_hour = 0;
 	local_data_time->tm_min = 0;
 	local_data_time->tm_sec = 0;
-	data = mktime(local_data_time.get());
+	data = mktime(local_data_time);
 
 	//Inserimento luogo
 	string luogo;
@@ -334,20 +369,23 @@ lezione_ref Gestore::crea_lezione() {
 	//Inserimento orario inzio
 	time_t ora_inizio;
 	time(&ora_inizio);
-	unique_ptr<tm> local_ora_inizio_time(localtime(&ora_inizio));
+	tm* local_ora_inizio_time = localtime(&ora_inizio);
 	int inizio_hour;
 	int inizio_minute;
 
 	cout << "Inserisci ora inizio: " << endl;
 	getline(cin, line);
-	inizio_hour = stoi(line);
-	//inizio_hour = 11; //Test
-	if (inizio_hour == 33) {
+	if (line == "!") {
 		return nullptr;
 	}
+	inizio_hour = stoi(line);
+	//inizio_hour = 11; //Test
 
 	cout << "Inserisci minuto: " << endl;
 	getline(cin, line);
+	if (line == "!") {
+		return nullptr;
+	}
 	inizio_minute = stoi(line);
 	//inizio_minute = 0; //Test
 
@@ -357,29 +395,37 @@ lezione_ref Gestore::crea_lezione() {
 	local_ora_inizio_time->tm_hour = inizio_hour;
 	local_ora_inizio_time->tm_min = inizio_minute;
 	local_ora_inizio_time->tm_sec = 0;
-	ora_inizio = mktime(local_ora_inizio_time.get());
+	ora_inizio = mktime(local_ora_inizio_time);
 
 	//Inserimento orario fine
 	time_t ora_fine;
 	time(&ora_fine);
-	unique_ptr<tm> local_ora_fine_time(localtime(&ora_fine));
+	tm* local_ora_fine_time = localtime(&ora_fine);
 	int fine_hour;
 	int fine_minute;
 
 	cout << "Inserisci ora fine: " << endl;
 	getline(cin, line);
-	fine_hour = stoi(line);
-	//fine_hour = 12; //Test
-	if (fine_hour == 33) {
+	if (line == "!") {
 		return nullptr;
 	}
+	fine_hour = stoi(line);
+	//fine_hour = 12; //Test
+	if(fine_hour < inizio_hour){
+		stampa_errore_ora_passata();
+		return nullptr;
+	}
+	bool stessa_ora = fine_hour == inizio_hour;
 
 	cout << "Inserisci minuto: " << endl;
 	getline(cin, line);
+	if (line == "!") {
+		return nullptr;
+	}
 	fine_minute = stoi(line);
 	//fine_minute = 0; //Test
-	if (fine_hour <= inizio_hour && fine_minute <= inizio_minute) {
-		stampa_errore_data_passata();
+	if (fine_minute <= inizio_minute && stessa_ora) {
+		stampa_errore_ora_passata();
 		return nullptr;
 	}
 
@@ -389,7 +435,7 @@ lezione_ref Gestore::crea_lezione() {
 	local_ora_fine_time->tm_hour = fine_hour;
 	local_ora_fine_time->tm_min = fine_minute;
 	local_ora_fine_time->tm_sec = 0;
-	ora_fine = mktime(local_ora_fine_time.get());
+	ora_fine = mktime(local_ora_fine_time);
 
 	//Scelta tutor
 	tutor_ref tutor_scelto;
@@ -402,9 +448,12 @@ lezione_ref Gestore::crea_lezione() {
 	}
 
 	getline(cin, line);
+	if (line == "!") {
+		return nullptr;
+	}
 	scelta = stoi(line);
 	//scelta = 0; //Test
-	if(scelta ==-2 || scelta == 33){
+	if(scelta ==-2){
 		return nullptr;
 	}
 	if (scelta < index && scelta >= 0) {
@@ -433,24 +482,35 @@ studente_ref Gestore::registra_studente(){
 void Gestore::stampa_lista_lezioni(){
 	stampa_lista_lezioni_singola();
 	stampa_lista_lezioni_collettiva();
+	stampa_lista_ricevimento_aperto();
 }
 
 void Gestore::stampa_lista_lezioni_singola(){
+	cout << "Lezioni singole: " << endl;
+	sort_list(lista_lezioni_singola);
 	for(auto& el: lista_lezioni_singola){
 		stampa_lezione(el);
 	}
 }
 
 void Gestore::stampa_lista_lezioni_collettiva(){
+	cout << "Lezioni collettive: " << endl;
+	sort_list(lista_lezioni_collettiva);
 	for(auto& el: lista_lezioni_collettiva){
 		stampa_lezione(el);
 	}
 }
 
 void Gestore::stampa_lista_ricevimento_aperto(){
+	cout << "Ricevimenti aperti: " << endl;
+	sort_list(lista_ricevimento_aperto);
 	for(auto& el: lista_ricevimento_aperto){
 		stampa_ricevimento(el);
 	}
+}
+
+Gestore::~Gestore(){
+
 }
 
 

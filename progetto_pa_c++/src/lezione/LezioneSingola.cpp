@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <memory>
 #include <list>
@@ -32,8 +33,16 @@ void LezioneSingola::set_studente(studente_ref studente)
 }
 
 string LezioneSingola::get_string(){
+	stringstream streamer;
+	streamer << Lezione::get_string() <<endl;
+	streamer << "Studente: "<<endl;
+	streamer << studente->get_string();
+	return streamer.str();
+}
 
-	return Lezione::get_string() + "\nStudente: \n" + studente->get_string();
+int LezioneSingola::compare_to(comparable_ref c){
+	unique_ptr<LezioneSingola> other(dynamic_cast<LezioneSingola*>(c.get()));
+	return this->get_data() - other->get_data();
 }
 
 LezioneSingola::~LezioneSingola(){

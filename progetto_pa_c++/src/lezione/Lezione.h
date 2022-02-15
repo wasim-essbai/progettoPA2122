@@ -62,6 +62,11 @@ public:
 
 	virtual string get_string();
 
+	virtual bool operator > (Lezione other)
+	{
+	    return this->data > other.get_data();
+	}
+
 	virtual ~Lezione();
 };
 

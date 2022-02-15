@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <list>
 #include <iostream>
@@ -43,7 +44,9 @@ void Tutor::decrementa_ore_svolte(int const decremento_ore)
 }
 
 string Tutor::get_string(){
-	return "Codice tutor: " + codice_tutor + " " + Utente::get_string();
+	stringstream streamer;
+	streamer << "Codice tutor: "<< codice_tutor << " " << Utente::get_string();
+	return streamer.str();
 }
 
 Tutor::~Tutor(){

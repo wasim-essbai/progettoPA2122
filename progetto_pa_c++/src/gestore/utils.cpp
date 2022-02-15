@@ -6,9 +6,13 @@
 
 #include <vector>
 #include <string>
+#include <list>
+#include <iostream>
 #include <memory>
 
 #include "utils.h"
+
+using namespace std;
 
 
 void stampa_lezione(lezione_ref lezione){
@@ -31,6 +35,11 @@ void stampa_errore(){
 }
 
 void stampa_errore_data_passata(){
-	cout << "La data deve essere futura! ";
+	cout << "La data deve essere futura!" << endl;
+	stampa_errore();
+}
+
+void void stampa_errore_ora_passata(){
+	cout << "L'orario di fine non può essere antecedente a quello di inizio!" << endl;
 	stampa_errore();
 }

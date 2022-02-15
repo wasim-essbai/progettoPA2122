@@ -54,6 +54,8 @@ public:
 	void stampa_lista_ricevimento_aperto();
 
 	studente_ref registra_studente();
+
+	~Gestore();
 };
 
 

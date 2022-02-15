@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 #include <list>
 #include <iostream>
@@ -66,20 +67,30 @@ void RicevimentoAperto::set_luogo(int const luogo)
 }
 
 string RicevimentoAperto::get_string(){
+	stringstream streamer;
+	streamer << "Codice lezione: " << Lezione::get_codice();
+
 	time_t data = Lezione::get_data();
-	unique_ptr<tm> local_data_time(localtime(&data));
-	string data_string = "null ";
-	if(local_data_time.get() != NULL){
+	tm* local_data_time = localtime(&data);
+	streamer << " Data: ";
+	if(local_data_time != NULL){
 		int year = 1900 + local_data_time->tm_year;
 		int month = 1 + local_data_time->tm_mon;
 		int day = local_data_time->tm_mday;
-		data_string = to_string(year) + "-" + to_string(month) + "-" + to_string(day) + "\n";
+		streamer << year << "-" << month << "-" << day << endl;
+	} else {
+		streamer << "null ";
 	}
 
-	string descrizione = "Codice lezione: " + to_string(Lezione::get_codice()) + " Data: " + data_string + "Luogo: " + Lezione::get_luogo() + "\n";
-	descrizione += "I tutor presenti sono: \n";
+	streamer << "Luogo: " << Lezione::get_luogo() << endl;
+	streamer << "I tutor presenti sono: " << endl;
 	for(auto& el: lista_tutor){
-		descrizione += el->get_string();
+		streamer << el->get_string() << endl;
 	}
-	return descrizione;
+	return streamer.str();
+}
+
+int RicevimentoAperto::compare_to(comparable_ref c){
+	unique_ptr<RicevimentoAperto> other(dynamic_cast<RicevimentoAperto*>(c.get()));
+	return Lezione::get_data() - other->get_data();
 }
