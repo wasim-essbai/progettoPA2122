@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../utente/Studente.h"
 #include "../utente/tutor.h"
+#include "../utente/utente.h"
 #include "../lezione/Lezione.h"
 #include "../lezione/LezioneSingola.h"
 #include "../lezione/LezioneCollettiva.h"
@@ -17,7 +18,7 @@
 using namespace std;
 
 template <typename T>
-void sort_list(vector<T>& lista_to_order){
+void ordina_lista(vector<T>& lista_to_order){
 	bubbleSortRic(lista_to_order, lista_to_order.size());
 }
 
@@ -36,6 +37,8 @@ void bubbleSortRic(vector<T>& lista, int n){
 void stampa_lezione(lezione_ref lezione);
 
 void stampa_ricevimento(ricevimento_aperto_ref ricevimento_aperto);
+
+void stampa_utente(utente_ref utente);
 
 void stampa_errore();
 

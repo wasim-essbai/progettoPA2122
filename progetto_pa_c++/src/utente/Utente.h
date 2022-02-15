@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include <list>
 #include <iostream>
 #include <assert.h>
@@ -38,9 +39,11 @@ public:
 
 	virtual void set_cognome(string cognome);
 
-	string get_string();
+	virtual string get_string();
 
 	virtual ~Utente();
 
 };
+
+typedef shared_ptr<Utente> utente_ref;
 #endif

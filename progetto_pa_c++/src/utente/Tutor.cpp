@@ -45,7 +45,8 @@ void Tutor::decrementa_ore_svolte(int const decremento_ore)
 
 string Tutor::get_string(){
 	stringstream streamer;
-	streamer << "Codice tutor: "<< codice_tutor << " " << Utente::get_string();
+	streamer << "Codice tutor: "<< codice_tutor << " " << Utente::get_string() << endl;
+	streamer << "Ore svolte: " << ore_svolte;
 	return streamer.str();
 }
 

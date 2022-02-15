@@ -11,6 +11,8 @@
 
 using namespace std;
 
+const int  RicevimentoAperto::DURATA = 4;
+
 RicevimentoAperto::RicevimentoAperto(time_t data, string luogo)
 :Lezione(data, luogo){
 

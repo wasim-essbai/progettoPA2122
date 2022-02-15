@@ -32,6 +32,7 @@ int main() {
 			cout << "2 - Stampa la lista delle lezioni collettive" << endl;
 			cout << "3 - Stampa la lista dei ricevimenti aperti" << endl;
 			cout << "4 - Inserisci una nuova lezione" << endl;
+			cout << "5 - Stampa anagrafica di tutti i tutor" << endl;
 			//scelta = 1; //Test
 			getline(cin, line);
 			scelta = stoi(line);
@@ -54,6 +55,9 @@ int main() {
 			case 4:
 				gestore->nuova_lezione();
 				break;
+			case 5:
+				gestore->stampa_anagrafica_tutor();
+				break;
 			default:
 				cout << "Scelta non valida!" << endl;
 			}
@@ -65,7 +69,7 @@ int main() {
 	catch (const exception& e) {
 		   cout << "Eccezione: " <<  e.what() << endl;
 	}
-	cout <<"Grazie per aver usato il nostro sistema di prenotazioni! " << endl;
-	cout<<"Arrivederci :)";
+	cout << "Grazie per aver usato il nostro sistema di prenotazioni! " << endl;
+	cout<< "Arrivederci :)";
 	return 0;
 }

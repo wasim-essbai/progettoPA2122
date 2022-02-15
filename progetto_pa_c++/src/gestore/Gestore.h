@@ -53,6 +53,8 @@ public:
 
 	void stampa_lista_ricevimento_aperto();
 
+	void stampa_anagrafica_tutor();
+
 	studente_ref registra_studente();
 
 	~Gestore();

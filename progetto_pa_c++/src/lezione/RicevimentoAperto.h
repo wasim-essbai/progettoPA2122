@@ -21,6 +21,8 @@ private:
 	vector<tutor_ref> lista_tutor;
 
 public:
+	static const int  DURATA;
+
 	int get_codice();
 
 	RicevimentoAperto(time_t data, string luogo);

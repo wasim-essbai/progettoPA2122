@@ -29,6 +29,13 @@ void stampa_ricevimento(ricevimento_aperto_ref ricevimento_aperto){
 	cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " << endl;
 }
 
+void stampa_utente(utente_ref utente){
+	cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " << endl;
+	cout << "Dettaglio tutor: " << endl;
+	cout << utente->get_string() << endl;
+	cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " << endl;
+}
+
 void stampa_errore(){
 	cout << "Scelta non valida! " << endl;
 	cout << "Reset operazione.. " << endl;
@@ -39,7 +46,7 @@ void stampa_errore_data_passata(){
 	stampa_errore();
 }
 
-void void stampa_errore_ora_passata(){
+void stampa_errore_ora_passata(){
 	cout << "L'orario di fine non può essere antecedente a quello di inizio!" << endl;
 	stampa_errore();
 }

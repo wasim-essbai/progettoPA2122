@@ -10,11 +10,12 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <math.h>
 #include "../utente/Studente.h"
 #include "../utente/tutor.h"
 #include "../lezione/LezioneSingola.h"
 #include "../lezione/Lezione.h"
-#include "../lezione/LezioneSingola.h"
+#include "../lezione/RicevimentoAperto.h"
 
 #include "utils.h"
 #include "Gestore.h"
@@ -38,9 +39,12 @@ void Gestore::init(){
 	lista_tutor.push_back(make_shared<Tutor>("Pippo", "Plutone"));
 
 	//init lezioni
-	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(2), time(0)+200000, "test2", time(0), time(0), lista_tutor.at(1)));
-	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(0), time(0)+100000, "test", time(0), time(0), lista_tutor.at(0)));
-	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(1), time(0), "test1", time(0), time(0), lista_tutor.at(0)));
+	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(2), time(0)+200000, "test2", time(0), time(0)+3600, lista_tutor.at(1)));
+	lista_tutor.at(1)->incrementa_ore_svolte(1);
+	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(0), time(0)+100000, "test", time(0), time(0)+3600, lista_tutor.at(0)));
+	lista_tutor.at(0)->incrementa_ore_svolte(1);
+	lista_lezioni_singola.push_back(make_shared<LezioneSingola>(lista_studenti.at(1), time(0), "test1", time(0), time(0)+3600, lista_tutor.at(0)));
+	lista_tutor.at(0)->incrementa_ore_svolte(1);
 
 }
 
@@ -288,6 +292,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 			return;
 		}
 		ricevimento_aperto->aggiungi_tutor(tutor_scelto);
+		tutor_scelto->incrementa_ore_svolte(RicevimentoAperto::DURATA);
 		cout << "Tutor aggiunto! " << endl;
 	}
 
@@ -456,8 +461,21 @@ lezione_ref Gestore::crea_lezione() {
 	if(scelta ==-2){
 		return nullptr;
 	}
+	float ore_svolte = fine_hour - inizio_hour;
+	if(fine_minute - inizio_minute < 0){
+		ore_svolte +=  (fine_minute - inizio_minute + 60)/60;
+	} else {
+		ore_svolte +=  (fine_minute - inizio_minute)/60;
+	}
+	int incremento_ore;
+	if(ore_svolte <= 1){
+		incremento_ore = 1;
+	} else {
+		incremento_ore = round(ore_svolte);
+	}
 	if (scelta < index && scelta >= 0) {
 		tutor_scelto = lista_tutor.at(scelta);
+		tutor_scelto->incrementa_ore_svolte(incremento_ore);
 	} else {
 		stampa_errore();
 		return nullptr;
@@ -487,7 +505,7 @@ void Gestore::stampa_lista_lezioni(){
 
 void Gestore::stampa_lista_lezioni_singola(){
 	cout << "Lezioni singole: " << endl;
-	sort_list(lista_lezioni_singola);
+	ordina_lista(lista_lezioni_singola);
 	for(auto& el: lista_lezioni_singola){
 		stampa_lezione(el);
 	}
@@ -495,7 +513,7 @@ void Gestore::stampa_lista_lezioni_singola(){
 
 void Gestore::stampa_lista_lezioni_collettiva(){
 	cout << "Lezioni collettive: " << endl;
-	sort_list(lista_lezioni_collettiva);
+	ordina_lista(lista_lezioni_collettiva);
 	for(auto& el: lista_lezioni_collettiva){
 		stampa_lezione(el);
 	}
@@ -503,9 +521,15 @@ void Gestore::stampa_lista_lezioni_collettiva(){
 
 void Gestore::stampa_lista_ricevimento_aperto(){
 	cout << "Ricevimenti aperti: " << endl;
-	sort_list(lista_ricevimento_aperto);
+	ordina_lista(lista_ricevimento_aperto);
 	for(auto& el: lista_ricevimento_aperto){
 		stampa_ricevimento(el);
+	}
+}
+
+void Gestore::stampa_anagrafica_tutor(){
+	for(auto& el: lista_tutor){
+		stampa_utente(el);
 	}
 }
 
