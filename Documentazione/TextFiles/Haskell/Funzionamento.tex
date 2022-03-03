@@ -1,0 +1,12 @@
+\section{Funzionamento}
+Di seguito viene descritto il funzionamento del programma.
+
+\subsection{Dinamica}
+In figura \ref{fig:HaskellActivityDiagram} viene riporta il diagramma delle attività del programma che mostra la sua dinamica e le operazioni svolte. Il flusso di controllo è molto semplice, all'avvio viene letto il file in input e rappresentato mediante una matrice. A tal fine viene usata la libreria \textbf{Data.Matrix}. Una volta gestito l'input viene eseguita la fase di \textit{learning} che consiste nella stima dei parametri necessari alla classificazione. In particolare, viene applicato l'algoritmo \textit{gradient descent} per minimizzare la funzione di costo.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{ImageFiles/haskell/ActivityDiagram}
+	\caption{Diagramma delle attività.}
+	\label{fig:HaskellActivityDiagram}
+\end{figure}
+Una volta ottenuta stimati i parametri inizia la parte di interazione con l'utente, dove è possibile inserire dei valori di peso e altezza, viene quindi fatta la classificazione e restituito il risultato in output. Il programma termina quando viene inserito un valore non positivo.

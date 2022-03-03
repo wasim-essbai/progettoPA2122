@@ -1,0 +1,7 @@
+\section{Algoritmo di learning}
+Per l'apprendimento è stato implementato l'algoritmo noto come \textit{gradient descent} che è un algoritmo iterativo usato l'ottimizzazione, in particolare la minimizzazione, per funzioni di costo con minimo globale unico. Questo algoritmo ha il vantaggio di non operare l'inversione di matrici, operazione molto costosa dal punto di vista computazionale. Se $\pmb\theta$ è il vettore dei parametri da stimare allora la stima $\hat{\pmb\theta}$ all'iterazione i+1 è data dalla \ref{eqn:1}
+\begin{equation}
+	\label{eqn:1}
+	\hat{\pmb\theta}_{i+1} = \hat{\pmb\theta}_{i} -\alpha\cdot\nabla J(\pmb\theta)|_{\pmb\theta = \hat{\pmb\theta}_{i}}
+\end{equation}
+

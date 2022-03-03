@@ -1,22 +1,22 @@
 \section{Funzionamento}
 Di seguito viene descritto il funzionamento del programma e la sua struttura interna.
 \subsection{Entità principali}
-Le tre tipologie di lezione rappresentano le entità fondamentali del programma. In figura \Fig~\ref{fig:ClassDiagram} viene riportato il diagramma delle classi con descritte le interfacce. In particolare, è presente una classe base che è Lezione e che contiene i campi comuni a tutte le lezioni. Dopodiché ci sono le classi che rappresentano effettivamente le entità di interessa e che sono derivate da Lezione. In particolare, LezioneSingola e LezioneCollettiva eredita in modo pubblico da Lezione mentre RicevimentoAperto in modo private, questo perché quest'ultima non ha tutti gli attributi di Lezione, quindi anche non tutte le funzionalità e pertanto restringe la sua interfaccia. In fine, sono indicate anche le relazioni tra le classi e insieme alle molteplicità.
+Le tre tipologie di lezioni rappresentano le entità fondamentali del programma. In figura \Fig~\ref{fig:ClassDiagram} viene riportato il diagramma delle classi con descritte le interfacce. In particolare, è presente una classe base che è \textbf{Lezione} e che contiene i campi comuni a tutte le lezioni. Dopodiché ci sono le classi che rappresentano effettivamente le entità di interesse e che sono derivate da Lezione. In particolare, \textbf{LezioneSingola} e \textbf{LezioneCollettiva} ereditano in modo pubblico da Lezione mentre \subsection{Dinamica} in modo privato, questo perché quest'ultima non ha tutti gli attributi di Lezione, quindi anche non tutte le funzionalità e pertanto restringe la sua interfaccia. In fine, sono indicate anche le relazioni tra le classi, insieme alle molteplicità.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{ImageFiles/c++/ClassDiagram}
+	\includegraphics[width=0.8\linewidth]{ImageFiles/c++/ClassDiagram}
 	\caption{Diagramma delle classi.}
 	\label{fig:ClassDiagram}
 \end{figure}
 
 \subsection{Dinamica}
-La dinamica del programma viene descritta in figura \Fig~\ref{fig:ActivityDiagram}. All'avvio vengono presentato il menu da cui l'utente può scegliere l'operazione da svolgere, la scelta viene fatta inserendo un numero, che corrisponde all'operazione. La descrizione nel diagramma è ad alto livello, ovvero viene riportata la dinamica globale senza dettagliare l'algoritmo che implementa le specifiche attività. 
-Alla scelta dell'operazione consegue l'invocazione di una procedura che la soddisfa, previa controllo dell'input, ovvero che il numero scelto corrisponda effettivamente ad un'operazione.
+La dinamica del programma viene descritta in figura \Fig~\ref{fig:ActivityDiagram}. All'avvio viene presentato il menu da cui l'utente può scegliere l'operazione da svolgere, la scelta viene fatta inserendo un numero, che corrisponde all'operazione. La descrizione nel diagramma è ad alto livello, ovvero viene riportata la dinamica globale senza dettagliare l'algoritmo che implementa le specifiche attività. 
+Alla scelta dell'operazione segue l'invocazione della procedura che la soddisfa, previa controllo dell'input, ovvero che il numero scelto corrisponda effettivamente ad un'operazione valida.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{ImageFiles/c++/ActivityDiagram}
+	\includegraphics[width=0.8\linewidth]{ImageFiles/c++/ActivityDiagram}
 	\caption{Diagramma delle attività.}
 	\label{fig:ActivityDiagram}
 \end{figure}
-Le procedure sono implementate in una classe dedicata chiamata Gestore. Questa non è rappresenta un'entità bensì un \textit{controller}, che quindi implementa ed offre le varie funzionalità. Queste procedure vengono invocate dal modulo \textit{main} del programma, dove infatti viene effettuata la scelta.
+Le procedure sono implementate in una classe dedicata chiamata \textbf{Gestore}. Questa non rappresenta un'entità bensì un \textit{controller}, che quindi implementa ed offre le varie funzionalità. Queste procedure vengono invocate dal modulo \textit{main} del programma, dove viene effettuata la scelta.
 
