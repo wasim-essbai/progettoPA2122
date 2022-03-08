@@ -61,6 +61,10 @@ void Gestore::nuova_lezione(){
 		cout << "1 - Collettiva" << endl;
 		cout << "2 - Ricevimento aperto" << endl;
 		getline(cin, line);
+		if(line == "\0"){
+			scelta = -1;
+			continue;
+		}
 		scelta = stoi(line);
 		//scelta = 2; //Test
 		switch(scelta){
@@ -97,7 +101,7 @@ void Gestore::nuova_lezione_singola(){
 		index++;
 	}
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return;
 	}
 	scelta = stoi(line);
@@ -148,7 +152,11 @@ void Gestore::nuova_lezione_collettiva(){
 		if (line == "!") {
 			return;
 		}
-		if(line == "ok"){
+		if(line == "ok" || line == "\0"){
+			if(aggiunti.size() <= 0){
+				cout << "Almeno uno studente necessario..." << endl;
+				continue;
+			}
 			break;
 		}
 		scelta = stoi(line);
@@ -177,6 +185,7 @@ void Gestore::nuova_lezione_collettiva(){
 		cout << "Studente aggiunto! " << endl;
 	}
 	lista_lezioni_collettiva.push_back(lezione_collettiva);
+	stampa_lezione(lezione_collettiva);
 }
 
 void Gestore::nuovo_ricevimento_aperto(){
@@ -191,7 +200,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 
 	cout << "Inserisci anno: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return;
 	}
 	year = stoi(line);
@@ -204,7 +213,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 
 	cout << "Inserisci mese: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return;
 	}
 
@@ -218,7 +227,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 
 	cout << "Inserisci giorno: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return;
 	}
 
@@ -269,7 +278,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 		if (line == "!") {
 			return;
 		}
-		if(line == "ok"){
+		if(line == "ok" || line == "\0"){
 			break;
 		}
 		scelta = stoi(line);
@@ -297,6 +306,7 @@ void Gestore::nuovo_ricevimento_aperto(){
 	}
 
 	lista_ricevimento_aperto.push_back(ricevimento_aperto);
+	stampa_ricevimento(ricevimento_aperto);
 }
 
 lezione_ref Gestore::crea_lezione() {
@@ -312,7 +322,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci anno: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	year = stoi(line);
@@ -326,7 +336,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci mese: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	month = stoi(line);
@@ -339,7 +349,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci giorno: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	day = stoi(line);
@@ -367,7 +377,7 @@ lezione_ref Gestore::crea_lezione() {
 	cout << "Inserisci luogo: " << endl;
 	getline(cin, luogo);
 	//luogo = "bog";//Test
-	if(luogo == "!"){
+	if(luogo == "!" || line == "\0"){
 		return nullptr;
 	}
 
@@ -380,7 +390,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci ora inizio: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	inizio_hour = stoi(line);
@@ -388,7 +398,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci minuto: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	inizio_minute = stoi(line);
@@ -411,7 +421,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci ora fine: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	fine_hour = stoi(line);
@@ -424,7 +434,7 @@ lezione_ref Gestore::crea_lezione() {
 
 	cout << "Inserisci minuto: " << endl;
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	fine_minute = stoi(line);
@@ -453,7 +463,7 @@ lezione_ref Gestore::crea_lezione() {
 	}
 
 	getline(cin, line);
-	if (line == "!") {
+	if (line == "!" || line == "\0") {
 		return nullptr;
 	}
 	scelta = stoi(line);
